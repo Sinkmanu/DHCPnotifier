@@ -1,0 +1,2 @@
+id,device,user,MAC
+1,Example Smartphone,Manu,01:02:03:04:05:00
