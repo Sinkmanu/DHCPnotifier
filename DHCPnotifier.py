@@ -13,7 +13,8 @@ import dbus
 import datetime
 	
 
-uid = 1000
+path = '/home/sink/Python/DHCPNotifier' # Script path
+uid = 1000 # uid of the desktop user (for the notification)
 
 def notificacion(uid,head,mensaje):
 	pid_t = os.fork()
@@ -26,11 +27,13 @@ def notificacion(uid,head,mensaje):
 			noti_id = notify_interface.Notify("DHCPNotifier", 0,"", head,mensaje, '',{},10000)
 
 		except dbus.DBusException, err:
-			  print err
+			fich = open(path+'/errorlog_DHCPNotifier',"a")
+			fich.write(err+"\n")
+			fich.close()
 		sys.exit(0)
 			  
 def getNameFromMAC(mac):
-	fich = open("./deviceMAC.txt","r")
+	fich = open(path+"/deviceMAC.txt","r")
 	cont = 0
 	e = 0
 	lines = len(fich.readlines())
@@ -48,7 +51,7 @@ def getNameFromMAC(mac):
 
 def add2log(dhcp_type,mac,other):
 	""" Function to add MAC and dates to the log """
-	fich = open('./log_DHCPnotifier',"a")
+	fich = open(path+'/log_DHCPnotifier',"a")
 	fich.write(unicode(datetime.datetime.now())+": DHCP "+ dhcp_type+" from "+ mac + " : " + other+"\n")
 	fich.close()
 
